@@ -695,7 +695,7 @@ export class ItemsService<Item extends AnyItem = AnyItem, Collection extends str
 				for (const index in data) {
 					const item = data[index]!;
 					const primaryKey = item[primaryKeyField];
-					if (!primaryKey) throw new InvalidPayloadError({ reason: `Item in update misses primary key` });
+					if (!primaryKey) throw new InvalidPayloadError({ field: primaryKeyField, reason: `Item in update misses primary key` });
 
 					const combinedOpts: MutationOptions = {
 						autoPurgeCache: false,
