@@ -10,6 +10,12 @@ beforeEach(() => {
 	};
 });
 
-test('Constructs message', () => {
+test('Constructs message without field', () => {
 	expect(messageConstructor(sample)).toBe(`Invalid payload. ${sample.reason}.`);
+});
+
+test('Constructs message with field', () => {
+	expect(messageConstructor({ reason: 'Value is invalid', field: 'email' })).toBe(
+		`Invalid payload in field "email". Value is invalid.`,
+	);
 });

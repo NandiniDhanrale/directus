@@ -501,7 +501,7 @@ export class PayloadService {
 							const parsedDate = parseISO(value);
 
 							if (!isValid(parsedDate)) {
-								throw new InvalidPayloadError({ reason: `Invalid Date format in field "${dateColumn.field}"` });
+								throw new InvalidPayloadError({ field: dateColumn.field, reason: `Invalid Date format` });
 							}
 
 							payload[name] = parsedDate;
@@ -511,7 +511,7 @@ export class PayloadService {
 							const parsedDate = parseISO(value);
 
 							if (!isValid(parsedDate)) {
-								throw new InvalidPayloadError({ reason: `Invalid DateTime format in field "${dateColumn.field}"` });
+								throw new InvalidPayloadError({ field: dateColumn.field, reason: `Invalid DateTime format` });
 							}
 
 							payload[name] = parsedDate;

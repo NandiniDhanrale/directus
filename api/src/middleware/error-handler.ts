@@ -11,6 +11,7 @@ import { useLogger } from '../logger/index.js';
 
 type ApiError = {
 	message: string;
+	field?: string | null;
 	extensions: {
 		code: string;
 		[key: string]: any;
@@ -69,14 +70,19 @@ export const errorHandler = asyncErrorHandler(async (err, req, res) => {
 				status = FALLBACK_ERROR.status;
 			}
 
-			errors.push({
+			const entry: ApiError = {
 				message: error.message,
 				extensions: {
 					...(error.extensions ?? {}),
-					// Expose error code under error's extensions data
 					code: error.code,
 				},
-			});
+			};
+
+			if (error.extensions && 'field' in error.extensions) {
+				entry['field'] = error.extensions['field'];
+			}
+
+			errors.push(entry);
 
 			if (isDirectusError(error, ErrorCode.MethodNotAllowed)) {
 				res.header('Allow', error.extensions.allowed.join(', '));
